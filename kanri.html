@@ -63,7 +63,7 @@
 
     <div class="menu-section" style="background:#fff8e1;border-left:4px solid #f9a825;">
         <h2>0. Git バックアップ（GitHub）</h2>
-        <p>大きな編集の<strong>前後</strong>に実行。観光HP（hp-amami-pr-1）専用です。WordPress テーマとは<strong>別リポジトリ</strong>です。</p>
+        <p>大きな編集の<strong>前後</strong>に実行。観光HP（amami-kanko）専用です。WordPress テーマとは<strong>別リポジトリ</strong>です。</p>
         <p class="cmd-label">バッチファイル（ダブルクリックでも可）</p>
         <code class="cmd-box">git-backup-github.bat</code>
         <p class="cmd-label">Cursor ターミナルに貼り付け（推奨）</p>
@@ -77,7 +77,7 @@
             <li>同じ一覧が <a href="git-backup-直近一覧.txt"><span class="file">git-backup-直近一覧.txt</span></a> にも保存されます（見落とし防止）</li>
             <li>半角・全角どちらの数字でも可（1 または １）</li>
             <li>詳細コマンド一覧：<a href="git-backup-コピー用.txt"><span class="file">git-backup-コピー用.txt</span></a></li>
-            <li>GitHub：<a href="https://github.com/amami50x/hp-amami-pr-1" target="_blank" rel="noopener">amami50x/hp-amami-pr-1</a></li>
+            <li>GitHub：<a href="https://github.com/amami50x/amami-kanko" target="_blank" rel="noopener">amami50x/amami-kanko</a></li>
         </ul>
     </div>
 
@@ -141,7 +141,7 @@
         <p>表の各島「関連サイト」ボタンで表示するリンクは、JSON で保持し、管理画面から編集します。</p>
         <ul>
             <li>編集画面（<span class="file">island-links-manage.php</span>）は<strong>PHPではパスワードロックしません</strong>。公開ページからはリンクしておらず、運用MENUで URL を共有する前提です。ブロックが必要なときは下記の IP 制限または Basic 認証を使ってください。</li>
-            <li>管理画面URL（本番例）：<span class="file">https://violetfoal2.sakura.ne.jp/hp-amami-pr-1/island-links-manage.php</span> … 運用者は MENU 一覧（運用用）から開くか、上記 URL を直接入力してください。</li>
+            <li>管理画面URL（本番例）：<span class="file">https://violetfoal2.sakura.ne.jp/amami-kanko/island-links-manage.php</span> … 運用者は MENU 一覧（運用用）から開くか、上記 URL を直接入力してください。</li>
             <li>より強く閉じたい場合：<span class="file">island-links-admin-config.php</span> の <code>allowed_admin_ips</code> に管理者の固定 IP のみを列挙するか、<span class="file">island-links-manage.htaccess.example</span> を参考に <strong>Basic 認証</strong>を追加してください。</li>
             <li>任意：<span class="file">island-links-admin-config.sample.php</span> を <span class="file">island-links-admin-config.php</span> にコピーし、必要なら <code>allowed_admin_ips</code> を書く（ファイルがなくても編集画面は動きます）。</li>
             <li>保存データ：<span class="file">data/island_related_links.json</span>（Webサーバが書き込める権限が必要）</li>

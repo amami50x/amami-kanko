@@ -8,8 +8,14 @@
     body {
       font-family: sans-serif;
       text-align: center;
-      background-color: #f8f8f8;
+      background-color: #bfe9f5;
+      background-image: linear-gradient(180deg, #e6f7fb 0%, #b3e5f2 30%, #6cc3e0 65%, #2f8fc0 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      box-sizing: border-box;
+      margin: 0;
       padding: 20px;
+      color: #0d2b45;
     }
     h3 {
       margin-bottom: 15px;
@@ -20,8 +26,9 @@
       margin: 10px auto;
       width: 80%;
       max-width: 400px;
-      background-color: #eee;
-      border-radius: 5px;
+      background-color: rgba(255,255,255,0.88);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,60,100,0.15);
     }
     .blue-bold {
       color: blue;
@@ -52,12 +59,63 @@
       margin-top: 5px;
     }
     .volume-control {
-      margin-top: 15px;
+      margin: 15px auto 0; width: 80%; max-width: 400px; padding: 8px; box-sizing: border-box;
+      background: rgba(255,255,255,0.85); border-radius: 8px;
+    }
+    .dl-area { margin: 10px auto; width: 96%; max-width: 1200px; padding: 10px; box-sizing: border-box; background: rgba(255,255,255,0.85); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,60,100,0.15); }
+    .volume-control input[type="range"] { width: 90%; }
+    .dl-btn { display: inline-block; margin: 5px; padding: 8px 16px; font-size: 16px; background: #2e7d32; color: #fff; border-radius: 5px; text-decoration: none; }
+    .dl-btn[hidden] { display: none; }
+    #dlListHeading { margin: 10px 0 4px; font-size: 16px; font-weight: bold; color: #333; text-align: left; }
+    #dlList { display: block; text-align: left; background: #fff; border: 1px solid #ccc; border-radius: 5px; padding: 8px; margin-top: 4px; }
+    #dlList ul { list-style: none; padding: 0; margin: 0 0 8px 0; display: grid; grid-template-columns: 1fr; gap: 4px 8px; }
+    #dlList li { display: flex; flex-wrap: wrap; align-items: center; gap: 3px 6px; padding: 5px 6px; border: 1px solid #eee; border-radius: 5px; background: #fafafa; font-size: 13px; box-sizing: border-box; min-width: 0; }
+    #dlList li .song-name { flex: 1 1 100%; min-width: 0; line-height: 1.25; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; word-break: break-word; }
+    #dlList li a { color: #2e7d32; white-space: nowrap; min-height: 28px; padding: 2px 8px; font-size: 12px; display: inline-flex; align-items: center; text-decoration: none; border: 1px solid #2e7d32; border-radius: 14px; background: #fff; }
+    #dlList li .no-save { color: #888; white-space: nowrap; min-height: 28px; padding: 2px 8px; font-size: 12px; display: inline-flex; align-items: center; border: 1px solid #ccc; border-radius: 14px; background: #f0f0f0; }
+    #dlList li.dl-heading { grid-column: 1 / -1; display: block; font-weight: bold; color: purple; background: #f3e9f7; border: none; border-bottom: 2px solid purple; border-radius: 0; padding: 5px 4px; margin-top: 2px; font-size: 14px; }
+    #dlList li .pick-btn { white-space: nowrap; min-width: 72px; min-height: 28px; padding: 2px 8px; font-size: 12px; border: 2px solid #1565c0; background: #fff; color: #1565c0; border-radius: 14px; cursor: pointer; margin: 0; }
+    #dlList li .pick-btn.on { background: #1565c0; color: #fff; font-weight: bold; }
+    #dlList li .play-now-btn { white-space: nowrap; min-height: 28px; padding: 2px 10px; font-size: 12px; border: 2px solid purple; background: #fff; color: purple; border-radius: 14px; cursor: pointer; margin: 0; font-weight: bold; }
+    #dlList li .play-now-btn:hover { background: #f3e9f7; }
+    #dlList li.now-playing { background: #fff3e0; border-color: #ef6c00; }
+    #dlList li .play-now-btn.playing { background: #ef6c00; border-color: #ef6c00; color: #fff; animation: bgmNowBlink 1.2s ease-in-out infinite; }
+    #dlList li .play-now-btn.playing.paused { animation: none; }
+    @keyframes bgmNowBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    @media (prefers-reduced-motion: reduce) {
+      #dlList li .play-now-btn.playing { animation: none; }
+    }
+    #dlList li.picked { background: #e3f2fd; border-color: #90caf9; }
+    #bgmPickStatus { margin: 8px 0; font-size: 14px; color: #1565c0; font-weight: bold; }
+    #bgmPickClear { margin-left: 6px; font-size: 14px; padding: 6px 10px; }
+    #bgmPickClear[hidden] { display: none; }
+    @media (min-width: 600px) {
+      #dlList ul { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 900px) {
+      #dlList ul { grid-template-columns: 1fr 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .dl-area, .volume-control, .purple-border-bgm { width: 94%; }
+      #dlList li { padding: 4px 5px; }
+      #dlList li .song-name { -webkit-line-clamp: 3; }
+    }
+    .bgm-admin-count { display: none; }
+    html.amami-admin .bgm-admin-count { display: inline-block; }
+    #dlList li .bgm-admin-count { font-size: 11px; color: #fff; background: #c62828; border-radius: 10px; padding: 1px 6px; white-space: nowrap; }
+    #dlList li .bgm-admin-count.bgm-dl-count { background: #2e7d32; }
+    #bgmAdminTotal { margin: 12px auto; padding: 6px 12px; background: #fff3e0; color: #b71c1c; border: 1px solid #c62828; border-radius: 6px; font-size: 14px; font-weight: bold; max-width: 1200px; box-sizing: border-box; }
+    #dlNote { margin: 10px auto; width: 80%; max-width: 400px; box-sizing: content-box; padding: 10px; background: #fff8e1; border: 2px solid #ef6c00; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,60,100,0.15); text-align: left; font-size: 14px; line-height: 1.6; color: #3e2723; }
+    #dlNote .note-title { display: block; font-weight: bold; color: #e65100; font-size: 15px; margin-bottom: 4px; }
+    #dlNote b { color: purple; }
+    @media (max-width: 480px) {
+      #dlNote { width: 94%; }
     }
   </style>
 </head>
 <body>
   <h3>BGMプレーヤー</h3>
+  <div id="bgmAdminTotal" class="bgm-admin-count">管理者用：BGMページのアクセス件数 <span id="bgmAdminPage">-</span> 件 ／ ダウンロード合計 <span id="bgmAdminDl">-</span> 件</div>
 
   <div class="purple-border-bgm">
     <p class="blue-bold">BGMを再生して奄美を感じよう！</p>
@@ -86,6 +144,24 @@
     <input type="range" id="volumeSlider" min="0" max="2" step="0.01" value="1">
   </div>
 
+  <div id="dlNote">
+    <span class="note-title">使い方</span>
+    ※<b>「▶ 再生」</b>を押すと、その曲をすぐに最初から再生します。<br>
+    ※<b>「BGM曲選択」</b>を押した曲だけがBGMで流れます（「選択中」をもう一度押すと外れます）。何も選ばないときは全曲が流れます。<br>
+    ※<b>「保存」</b>でその曲をダウンロードできます（作詞・sasoriの曲のみ。「保存不可」の曲はダウンロードできません）。
+  </div>
+
+  <div class="dl-area">
+    <a id="dlCurrent" class="dl-btn" href="#" download hidden>♪ 現在聴いている曲をダウンロード</a>
+    <div id="dlCurrentNote" class="time-display" hidden>現在聴いている曲はダウンロードできません</div>
+    <div id="bgmPickStatus"><span id="bgmPickText">BGM：全曲を再生</span><button id="bgmPickClear" type="button" hidden>選択を解除（全曲に戻す）</button></div>
+    <div id="dlListHeading">曲一覧（ダウンロード・BGMに流す曲の選択）</div>
+    <div id="dlList">
+      <ul id="dlListItems"></ul>
+    </div>
+  </div>
+
+
   <script>
     const audioPlayer = document.getElementById("audioPlayer");
     const playButton = document.getElementById("playButton");
@@ -104,7 +180,7 @@
       { file: "hp-music/shima_blues.aac", title: "島のブルース" },
       { file: "hp-music/furusatohekaeritai_sasori.aac", title: "ふるさとへ帰りたいsasori" },
       { file: "hp-music/yoronbojo.aac", title: "与論慕情" },
-      { file: "hp-music/kazenomamani-yoronjimae.mp3", title: "風のままに与論島へsasori" },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+      { file: "hp-music/kazenomamani-yoronjimae.mp3", title: "風のままに与論島へsasori" },
       { file: "hp-music/kakeromabojo.aac", title: "加計呂麻慕情" },
       { file: "hp-music/furusatoamamiyo-towani_sasori.aac", title: "ふるさと奄美よ永遠にsasori" },
       { file: "hp-music/shima_sodachi.aac", title: "島育ち" },
@@ -113,7 +189,7 @@
       { file: "hp-music/furusatoyo-hanareteitemo.mp3", title: "ふるさとよ離れていてもsasori" },
       { file: "hp-music/sinkawa_furusato.aac", title: "ふるさとへ" },
       { file: "hp-music/wagamichi.mp3", title: "我が道sasori" },
-      { file: "hp-music/omokage.mp3", title: "面影（おもかげ）sasori" }, 
+      { file: "hp-music/omokage.mp3", title: "面影（おもかげ）sasori" },
       { file: "hp-music/itumonomisede-hitorigurasukatamukete.mp3", title: "いつもの店で一人グラス傾けてsasori" },
       { file: "hp-music/yumenomukoni-okinoerabu.mp3", title: "夢の向こうに沖永良部島sasori" },
       { file: "hp-music/waidowaidono-tokunosima.mp3", title: "ワイドワイドの徳之島へsasori" },
@@ -123,12 +199,19 @@
       { file: "hp-music/manabiyanoomoi-imamo-sasori.mp3", title: "学び舎の想い今もsasori" },
       { file: "hp-music/hosifuru-yoruha-sasori.mp3", title: "星降る夜はsasori" },
       { file: "hp-music/maewomuite-sasori.mp3", title: "前を向いてsasori" },
-      { file: "hp-music/wagafurusato-tokunoshima-sasori .mp3", title: "わがふるさと徳之島sasori" },
+      { file: "hp-music/wagafurusato-tokunoshima-sasori.mp3", title: "わがふるさと徳之島sasori" },
       { file: "hp-music/dosokainoomoi-sasori.mp3", title: "同窓会の思いsasori" },
       { file: "hp-music/furusatoamamiwo-omou-sasori.mp3", title: "ふるさと奄美を想うsasori" },
-　　　{ file: "hp-music/furusato_kitahara.aac", title: "ふるさとの話をしよう" },
-      { file: "hp-music/funaki_koukou_sannensei.aac", title: "高校三年生" }
+      { file: "hp-music/furusato_kitahara.aac", title: "ふるさとの話をしよう" },
+      { file: "hp-music/funaki_koukou_sannensei.aac", title: "高校三年生" },
+      { file: "hp-music/島の風にのせてsasori.mp3", title: "島の風にのせてsasori" },
+      { file: "hp-music/奄美よ、ふるさとよsasori.mp3", title: "奄美よ、ふるさとよsasori" },
+      { file: "hp-music/奄美の親と子の思いsasori.mp3", title: "奄美の親と子の思いsasori" },
+      { file: "hp-music/ふるさとよ！sasori.mp3", title: "ふるさとよ！sasori" },
+      { file: "hp-music/さあ！奄美へ行こうsasori.mp3", title: "さあ！奄美へ行こうsasori" }
     ];
+    let fullPlaylist = playlist.slice();   // 全曲リスト（bgm-playlist.json）
+    let nowTrack = null;                   // いま鳴っている曲
     let currentTrack = 0;
     let isPlaying = false;
     let pausedTime = 0;
@@ -151,10 +234,12 @@
     function setPlaylist(tracks) {
       const next = Array.isArray(tracks) ? tracks.map(normalizeTrack).filter(Boolean) : [];
       if (!next.length) return;
+      fullPlaylist = next;
       playlist = next;
       currentTrack = 0;
       pausedTime = 0;
       trackTitle.textContent = "曲タイトル: " + playlist[0].title + "（再生ボタンで開始）";
+      if (typeof updateCurrentDownload === "function") { buildDownloadList(); applyPicks(); }
     }
 
     fetch("bgm-playlist.json?_=" + Date.now(), { cache: "no-cache" })
@@ -166,15 +251,20 @@
         trackTitle.textContent = "曲タイトル: " + playlist[0].title + "（予備リストで再生）";
       });
 
-    function playTrack(trackIndex) {
-      if (!playlist.length) return;
-      audioPlayer.src = playlist[trackIndex].file;
+    function playTrack(trackIndex, track) {
+      if (!playlist.length && !track) return;
+      const t = track || playlist[trackIndex];      // 再生する曲を先に確定（途中でリストが変わってもずれない）
+      nowTrack = t;
+      audioPlayer.src = t.file;
+      updateCurrentDownload();
       audioPlayer.currentTime = pausedTime;
+      var freshStart = !(audioPlayer.currentTime > 0.5);   // 一時停止からの再開は数えない
       pausedTime = 0;
       audioPlayer.play().then(() => {
+        if (freshStart && typeof bgmCountPlay === "function") bgmCountPlay(t.file);
         isPlaying = true;
         playButton.textContent = "一時停止";
-        trackTitle.textContent = "曲タイトル: " + playlist[trackIndex].title;
+        trackTitle.textContent = "曲タイトル: " + t.title;
       }).catch(error => {
         console.error("再生エラー:", error);
       });
@@ -187,17 +277,24 @@
     var gainNode = null;
     var audioGraphFailed = false;
 
+    // iPhone：マナーモード（消音スイッチ）でも音が出るよう、メディア再生として扱う（iOS 17以降）
+    try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {}
+
     function ensureAudioGraph() {
       if (audioCtx || audioGraphFailed) return;
       var Ctx = window.AudioContext || window.webkitAudioContext;
       if (!Ctx) { audioGraphFailed = true; return; }
       try {
         audioCtx = new Ctx();
+        audioPlayer.volume = 1;                    // 二重に音量が下がらないよう、要素側は常に最大にしてGainNodeだけで調整
         var source = audioCtx.createMediaElementSource(audioPlayer);
         gainNode = audioCtx.createGain();
         gainNode.gain.value = parseFloat(volumeSlider.value);
         source.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
+        var limiter = audioCtx.createDynamicsCompressor();  // limiter: prevent clipping at gain 2
+        limiter.threshold.value = -3; limiter.knee.value = 0; limiter.ratio.value = 20; limiter.attack.value = 0.003; limiter.release.value = 0.25;
+        gainNode.connect(limiter);
+        limiter.connect(audioCtx.destination);
       } catch (e) {
         audioGraphFailed = true;
         audioCtx = null;
@@ -217,7 +314,7 @@
       var vol = parseFloat(value);
       if (isNaN(vol)) return;
       if (gainNode) {
-        gainNode.gain.value = vol;                 // iOS含む：GainNodeで音量制御（1.0超で増幅可）
+        gainNode.gain.value = vol;                 // iOS含む：GainNodeで音量制御（0〜1）
       } else {
         audioPlayer.volume = Math.min(vol, 1);     // フォールバック：従来方式は0〜1までに制限
       }
@@ -284,8 +381,250 @@
     // 音量バー：起動時に実際の音量をスライダーの位置に合わせる（ズレ防止）
     applyVolume(volumeSlider.value);
     volumeSlider.addEventListener("input", function () {
+      if (audioCtx && audioCtx.state !== "running") audioCtx.resume();  // 一時停止状態（iPhoneの画面切替後など）なら復帰
       applyVolume(this.value);
     });
+
+    // ===== ダウンロード（作詞者 sasori の曲だけ） =====
+    const dlCurrent = document.getElementById("dlCurrent");
+    const dlCurrentNote = document.getElementById("dlCurrentNote");
+    const dlList = document.getElementById("dlList");
+    const dlListItems = document.getElementById("dlListItems");
+    function isDownloadable(t) { return !!t && /sasori$/i.test(String(t.title).trim()); }
+    function dlName(t) {
+      var m = String(t.file).match(/\.[A-Za-z0-9]+$/);
+      return String(t.title).trim().replace(/[\\\/:*?"<>|]/g, "_") + (m ? m[0] : "");
+    }
+    // 実際に <audio> が鳴らしている曲を返す（リストの番号ではなく、読み込まれている音声ファイルで判定）
+    function playingTrack() {
+      var src = audioPlayer.currentSrc || audioPlayer.src;
+      if (src) {
+        var lists = [nowTrack ? [nowTrack] : [], playlist, fullPlaylist, municipalSongs];
+        for (var L = 0; L < lists.length; L++) for (var i = 0; i < lists[L].length; i++) {
+          var c = lists[L][i];
+          try { if (new URL(c.file, location.href).href === src) return c; } catch (e) {}
+        }
+      }
+      return nowTrack || playlist[currentTrack];
+    }
+    function updateCurrentDownload() {
+      var t = (audioPlayer.currentSrc || audioPlayer.src) && !(audioPlayer.paused && audioPlayer.currentTime === 0) ? playingTrack() : (nowTrack || playlist[currentTrack]);
+      if (isDownloadable(t)) {
+        dlCurrent.href = t.file; dlCurrent.setAttribute("download", dlName(t));
+        dlCurrent.hidden = false; dlCurrentNote.hidden = true;
+      } else {
+        dlCurrent.hidden = true; dlCurrent.removeAttribute("href"); dlCurrent.removeAttribute("download"); dlCurrentNote.hidden = false;
+      }
+    }
+    // 市町村の旗をクリックすると流れるイメージソング（一覧からのダウンロード専用。BGM再生リストには入れない）
+    const municipalSongs = [
+      { town: "喜界町", file: "hp-music/「サンゴの島　喜界町」sasori.mp3" },
+      { town: "龍郷町", file: "hp-music/「龍の郷（さと）に光満ちて－龍郷町」sasori.mp3" },
+      { town: "奄美市", file: "hp-music/「結（ゆい）の街-奄美市」sasori.mp3" },
+      { town: "大和村", file: "hp-music/「大和（やまと）の風に吹かれて－大和村」sasori.mp3" },
+      { town: "宇検村", file: "hp-music/「焼内の海に生きて－宇検村」sasori.mp3" },
+      { town: "瀬戸内町", file: "hp-music/「大島海峡に生きて－瀬戸内町」sasori.mp3" },
+      { town: "徳之島町", file: "hp-music/「闘牛の島に生きて－徳之島町」sasori.mp3" },
+      { town: "天城町", file: "hp-music/「井之川岳に誓いて－天城町」sasori.mp3" },
+      { town: "伊仙町", file: "hp-music/『伊仙ぬ風（いせんぬかじ）』sasori.mp3" },
+      { town: "知名町", file: "hp-music/「わがふるさと-知名町」sasori.mp3" },
+      { town: "和泊町", file: "hp-music/「花と潮風の町-和泊」sasori.mp3" },
+      { town: "与論町", file: "hp-music/「ふるさと-与論」sasori.mp3" }
+    ].map(function (m) {
+      var name = m.file.replace(/^hp-music\//, "");
+      return { file: m.file, town: m.town, title: name.replace(/\.[A-Za-z0-9]+$/, ""), name: name };
+    });
+    function addDlItem(t, value, label, fname) {
+      var li = document.createElement("li");
+      var lab = document.createElement("span"); lab.className = "song-name";
+      lab.textContent = label;
+      var canDl = isDownloadable(t);
+      var cnt = document.createElement("span"); cnt.className = "bgm-admin-count"; cnt.setAttribute("data-file", t.file); cnt.title = "再生回数（管理者のみ表示）";
+      li.appendChild(lab); li.appendChild(cnt);
+      var pn = document.createElement("button"); pn.type = "button"; pn.className = "play-now-btn"; pn.setAttribute("data-file", t.file); pn.textContent = "▶ 再生";
+      pn.addEventListener("click", function () { playNow(t); });
+      li.appendChild(pn);
+      if (canDl) {
+        var dc = document.createElement("span"); dc.className = "bgm-admin-count bgm-dl-count"; dc.setAttribute("data-file", t.file); dc.title = "ダウンロード回数（管理者のみ表示）";
+        li.appendChild(dc);
+        var a = document.createElement("a"); a.href = t.file; a.setAttribute("download", fname); a.textContent = "保存";
+        a.addEventListener("click", function () { if (typeof bgmCountDl === "function") bgmCountDl(t.file); });
+        li.appendChild(a);
+      } else {
+        var ns = document.createElement("span"); ns.className = "no-save"; ns.textContent = "保存不可";
+        li.appendChild(ns);
+      }
+      var pb = document.createElement("button"); pb.type = "button"; pb.className = "pick-btn"; pb.setAttribute("data-file", t.file);
+      pb.addEventListener("click", function () { togglePick(t.file); });
+      li.appendChild(pb); dlListItems.appendChild(li);
+    }
+    // 一覧の「▶ 再生」：その曲をすぐ最初から再生。今の再生リストに無い曲（選曲中で未選択）は1曲だけ流し、終わったら選曲リストの続きへ戻る
+    function playNow(t) {
+      unlockAudio();
+      pausedTime = 0;
+      var idx = -1;
+      for (var k = 0; k < playlist.length; k++) if (playlist[k].file === t.file) { idx = k; break; }
+      if (idx >= 0) { currentTrack = idx; playTrack(idx); }
+      else playTrack(currentTrack, { file: t.file, title: t.town ? t.town + "：" + t.title : t.title });
+    }
+    // 曲一覧で今流れている曲の「▶ 再生」を「♪ 演奏中」にして点滅（一時停止中は点滅なし・停止で元に戻す）
+    function markNowPlaying() {
+      var src = audioPlayer.currentSrc || audioPlayer.src;
+      var active = src && !(audioPlayer.paused && audioPlayer.currentTime === 0) ? playingTrack() : null;
+      var file = active ? active.file : "";
+      dlListItems.querySelectorAll(".play-now-btn").forEach(function (b) {
+        var on = file !== "" && b.getAttribute("data-file") === file;
+        b.classList.toggle("playing", on);
+        b.classList.toggle("paused", on && audioPlayer.paused);
+        b.textContent = on ? "♪ 演奏中" : "▶ 再生";
+        b.parentNode.classList.toggle("now-playing", on);
+      });
+    }
+    audioPlayer.addEventListener("playing", markNowPlaying);
+    audioPlayer.addEventListener("pause", markNowPlaying);
+    audioPlayer.addEventListener("emptied", markNowPlaying);
+    function addDlHeading(text) {
+      var li = document.createElement("li"); li.className = "dl-heading"; li.textContent = text; dlListItems.appendChild(li);
+    }
+    function buildDownloadList() {
+      dlListItems.innerHTML = "";
+      addDlHeading("BGMの曲");
+      var seen = {};
+      fullPlaylist.forEach(function (t, i) {
+        seen[t.file] = true;
+        addDlItem(t, "p" + i, t.title, dlName(t));
+      });
+      addDlHeading("市町村イメージソング");
+      municipalSongs.forEach(function (m, i) {
+        if (seen[m.file]) return;
+        addDlItem(m, "m" + i, m.town + "：" + m.title, m.name);
+      });
+      markNowPlaying();
+      if (typeof bgmApplyCounts === "function") bgmApplyCounts();
+    }
+    // 押した瞬間に「いま鳴っている曲」で href・保存名・カウントをそろえる（リンクの既定動作より先に実行される）
+    dlCurrent.addEventListener("click", function (ev) {
+      var t = (audioPlayer.currentSrc && !audioPlayer.paused) ? playingTrack() : (nowTrack || playlist[currentTrack]);
+      if (!isDownloadable(t)) { ev.preventDefault(); updateCurrentDownload(); return; }
+      dlCurrent.href = t.file; dlCurrent.setAttribute("download", dlName(t));
+      if (typeof bgmCountDl === "function") bgmCountDl(t.file);
+    });
+    audioPlayer.addEventListener("playing", function () { updateCurrentDownload(); });
+    // ===== BGMに流す曲の選択（localStorage に保存。ページを移っても、次に来たときも有効） =====
+    const PICK_KEY = "amamiBgmPicks";   // 値：選んだ曲のファイル名の配列（JSON）
+    function loadPicks() { try { var v = JSON.parse(localStorage.getItem(PICK_KEY) || "[]"); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
+    function savePicks(a) { try { if (a.length) localStorage.setItem(PICK_KEY, JSON.stringify(a)); else localStorage.removeItem(PICK_KEY); } catch (e) {} }
+    function pickCandidates() {   // 一覧に出る順（BGMの曲 → 市町村イメージソング）。保存不可の曲もBGM選択対象
+      var list = [], seen = {};
+      fullPlaylist.forEach(function (t) { seen[t.file] = 1; list.push({ file: t.file, title: t.title }); });
+      municipalSongs.forEach(function (m) { if (!seen[m.file]) list.push({ file: m.file, title: m.town + "：" + m.title }); });
+      return list;
+    }
+    function togglePick(file) {
+      var a = loadPicks(), i = a.indexOf(file);
+      if (i >= 0) a.splice(i, 1); else a.push(file);
+      savePicks(a); applyPicks();
+    }
+    function applyPicks() {
+      var picks = loadPicks();
+      var chosen = pickCandidates().filter(function (t) { return picks.indexOf(t.file) >= 0; });
+      // 全曲に戻すときは fullPlaylist のコピーを使う（参照共有でリストが壊れないように）
+      var next = chosen.length ? chosen : fullPlaylist.slice();
+      var cur = nowTrack ? nowTrack.file : null;
+      // 選曲中で停止しているときだけ、今の playlist 上の位置を控える
+      if (!cur && chosen.length && playlist[currentTrack]) cur = playlist[currentTrack].file;
+      playlist = next;
+      if (!chosen.length) {
+        // 選択解除 → 全曲リストへ。停止中は先頭から。再生中はすぐ止めて全曲の1曲目から再生（ユーザー操作なので autoplay 可）。
+        if (isPlaying) {
+          pausedTime = 0;
+          currentTrack = 0;
+          unlockAudio();
+          playTrack(0);
+        } else {
+          currentTrack = 0;
+          nowTrack = null;
+          pausedTime = 0;
+          if (next.length) trackTitle.textContent = "曲タイトル: " + next[0].title + "（再生ボタンで開始）";
+        }
+      } else {
+        var idx = -1;
+        for (var j = 0; j < next.length; j++) if (next[j].file === cur) { idx = j; break; }
+        if (idx >= 0) currentTrack = idx;
+        else if (isPlaying) currentTrack = next.length - 1;   // 今の曲は最後まで流し、次から選んだ曲へ
+        else { currentTrack = 0; nowTrack = null; pausedTime = 0; trackTitle.textContent = "曲タイトル: " + next[0].title + "（再生ボタンで開始）"; }
+      }
+      dlListItems.querySelectorAll(".pick-btn").forEach(function (b) {
+        var on = picks.indexOf(b.getAttribute("data-file")) >= 0;
+        b.classList.toggle("on", on); b.textContent = on ? "選択中" : "BGM曲選択";
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+        b.parentNode.classList.toggle("picked", on);
+      });
+      document.getElementById("bgmPickText").textContent = chosen.length ? "BGM：選曲した曲だけ再生" : "BGM：全曲を再生";
+      document.getElementById("bgmPickClear").hidden = !chosen.length;
+      updateCurrentDownload();
+    }
+    document.getElementById("bgmPickClear").addEventListener("click", function () { savePicks([]); applyPicks(); });
+    window.addEventListener("storage", function (e) { if (e.key === PICK_KEY) applyPicks(); });   // 別タブで変えたときも反映
+
+    updateCurrentDownload();
+    buildDownloadList();
+    applyPicks();
+  
+    // ===== アクセス件数・曲ごとの再生回数（bgm-counter.php） =====
+    // 管理者：index.html と同じく ?admin=パスワード（sessionStorage "amami-admin-pw"）。
+    // 表示可否はサーバーがパスワードを確認して決める。管理者のアクセス・再生も数える。
+    var BGM_COUNTER = "bgm-counter.php";
+    var BGM_ADMIN_KEY = "amami-admin-pw";
+    try { var q = new URLSearchParams(location.search).get("admin"); if (q) sessionStorage.setItem(BGM_ADMIN_KEY, q); } catch (e) {}
+    function bgmAdminPw() {
+      var pw = "";
+      try { pw = sessionStorage.getItem(BGM_ADMIN_KEY) || ""; } catch (e) {}
+      if (!pw) { try { if (window.opener && window.opener.sessionStorage) pw = window.opener.sessionStorage.getItem(BGM_ADMIN_KEY) || ""; } catch (e) {} }
+      return pw;
+    }
+    var bgmCounts = null;
+    function bgmPost(params) {
+      var body = new URLSearchParams(params);
+      // keepalive: ダウンロードでページが動いても送信を最後まで続ける
+      return fetch(BGM_COUNTER, { method: "POST", body: body, cache: "no-store", credentials: "same-origin", keepalive: true }).then(function (r) { return r.json(); }).catch(function () { return null; });
+    }
+    function bgmApplyCounts() {
+      if (!bgmCounts) return;
+      var pg = document.getElementById("bgmAdminPage"); if (pg) pg.textContent = bgmCounts.page;
+      var dt = document.getElementById("bgmAdminDl"); if (dt) dt.textContent = bgmCounts.dlTotal;
+      var els = document.querySelectorAll("#dlListItems .bgm-admin-count");
+      for (var i = 0; i < els.length; i++) {
+        var f = els[i].getAttribute("data-file");
+        if (els[i].classList.contains("bgm-dl-count")) els[i].textContent = "⬇ " + (bgmCounts.downloads[f] || 0) + "回";
+        else els[i].textContent = "▶ " + (bgmCounts.songs[f] || 0) + "回";
+      }
+    }
+    function bgmLoadCounts() {
+      var pw = bgmAdminPw();
+      return fetch(BGM_COUNTER + "?action=get&pw=" + encodeURIComponent(pw) + "&_=" + Date.now(), { cache: "no-store", credentials: "same-origin" })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (!d || !d.admin) return false;
+          bgmIsAdmin = true;
+          bgmCounts = { page: d.page || 0, songs: d.songs || {}, downloads: d.downloads || {}, dlTotal: d.downloads_total || 0 };
+          document.documentElement.classList.add("amami-admin");
+          bgmApplyCounts();
+          return true;
+        }).catch(function () { return false; });
+    }
+    function bgmCountPlay(file) {
+      // 管理者の再生も数える。管理者なら数えた後に表示を更新
+      bgmPost({ action: "play", song: file }).then(function () { if (bgmIsAdmin) bgmLoadCounts(); });
+    }
+    function bgmCountDl(file) {
+      // ダウンロード回数（管理者も数える）。リンク本来のダウンロードは止めない
+      bgmPost({ action: "dl", song: file }).then(function () { if (bgmIsAdmin) bgmLoadCounts(); });
+    }
+    // まず管理者か確認（パスワード または WordPress の管理者ログイン）→ 管理者でなければアクセス数 +1
+    var bgmIsAdmin = false;
+    // アクセス数は管理者も含めて全員 +1。管理者なら数えた後の件数を表示
+    bgmPost({ action: "page" }).then(function () { return bgmLoadCounts(); });
   </script>
 </body>
 </html>

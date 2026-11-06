@@ -1,12 +1,16 @@
 ﻿hp-amami-pr-1 Gitバックアップ 直近一覧
 日時: 
-2026-06-23 15:26:36
-コミット: 98b5c0a バックアップ：2026-06-23_15-23
+2026-06-23 15:27:16
+コミット: 27636ba バックアップ：2026-06-23_15-27
 
 【バックアップしたファイル】
   git-backup-github.bat
+  git-backup-list.ps1
+  git-backup-コピー用.txt
+  git-backup-直近一覧.txt
+  kanri.html
   no-up-git-backup-github.bat
 
-合計: 2 件
+合計: 6 件
 
 ※ ターミナルとこのファイルの両方でファイル名を確認できます。

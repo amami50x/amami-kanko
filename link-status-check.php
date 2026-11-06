@@ -8,9 +8,9 @@
  *
  * 使い方:
  *   1) ブラウザでアクセス
- *      https://violetfoal2.sakura.ne.jp/hp-amami-pr-1/link-status-check.php
+ *      https://violetfoal2.sakura.ne.jp/amami-kanko/link-status-check.php
  *   2) cron 定期実行（さくらのコントロールパネル → 「CRON設定」）
- *      curl -s https://violetfoal2.sakura.ne.jp/hp-amami-pr-1/link-status-check.php?cron=1 > /dev/null
+ *      curl -s https://violetfoal2.sakura.ne.jp/amami-kanko/link-status-check.php?cron=1 > /dev/null
  *
  * 出力:
  *   link-status.json （同じディレクトリに上書き）
@@ -54,7 +54,7 @@ const HTML_FILE   = 'index.html';
 const OUTPUT_FILE = 'link-status.json';
 const USER_AGENT  =
     'Mozilla/5.0 (compatible; LinkStatusBot/1.0; '
-  . '+https://violetfoal2.sakura.ne.jp/hp-amami-pr-1/) Chrome/124.0';
+  . '+https://violetfoal2.sakura.ne.jp/amami-kanko/) Chrome/124.0';
 const HTTP_TIMEOUT     = 12;   // 各リクエストのタイムアウト秒
 const PARALLEL         = 8;    // 並列数
 const RETRY_ON_TIMEOUT = 1;    // タイムアウト時の追加リトライ回数

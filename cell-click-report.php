@@ -166,6 +166,27 @@ foreach ($reg['sns'] as $it) {
 }
 
 /* クリックはされたが登録一覧に無いURL（古いリンク等）も拾う */
+/* 登録一覧（リンク一覧.txt）に無いが正規に使っているURLの表示名（2026-11-05追加） */
+function extra_registered_label($url, $cell, $COL, $ROW, $ISLAND) {
+    if ($url === 'action:bgm-window') return '東京奄美会 BGM再生';
+    if (strpos($url, 'action:song:') === 0) {
+        list($group, $category) = cell_meta($cell, $COL, $ROW, $ISLAND);
+        $name = ($group !== '' ? $group . ' ' : '') . '町歌（再生）';
+        return $name;
+    }
+    $map = [
+        'https://goontoamami.jp/yoron/'       => 'Go on to Amami（与論島）',
+        'https://goontoamami.jp/kikai/'       => 'Go on to Amami（喜界島）',
+        'https://goontoamami.jp/amamiisland/' => 'Go on to Amami（奄美大島）',
+        'https://goontoamami.jp/tokunoshima/' => 'Go on to Amami（徳之島）',
+        'http://www.tokunoshima-kanko.com/'   => '徳之島観光連盟',
+        'https://www.tokunoshima-town.org/omotenashikanko/kanko/kankorenmei.html' => '徳之島町 観光連盟',
+        'https://www.town.china.lg.jp/kikakushinkou/asobiniku/tokusanhin/index.html' => '知名町 特産品',
+        'https://www.town.china.lg.jp/shougai/kurasu/kosodate-kyoiku/shogaigakushu/denshogeno/denshogeno.html' => '知名町 伝承芸能',
+    ];
+    return isset($map[$url]) ? $map[$url] : '';
+}
+
 foreach ($byUrl as $url => $rec) {
     if (isset($seen[$url])) continue;
     $cell = (is_array($rec) && isset($rec['cell'])) ? $rec['cell'] : '';
@@ -173,10 +194,11 @@ foreach ($byUrl as $url => $rec) {
     $ja = isset($rec['ja']) ? (int)$rec['ja'] : 0;
     $fo = isset($rec['foreign']) ? (int)$rec['foreign'] : 0;
     $to = isset($rec['total']) ? (int)$rec['total'] : ($ja + $fo);
+    $xl = extra_registered_label($url, $cell, $COL, $ROW, $ISLAND);
     $entries[] = [
         'cell'=>$cell, 'group'=>$group, 'category'=>$category,
-        'label'=>(is_array($rec) && isset($rec['label']) && $rec['label'] !== '' ? $rec['label'] : $url),
-        'url'=>$url, 'ja'=>$ja, 'foreign'=>$fo, 'total'=>$to, 'registered'=>false,
+        'label'=>($xl !== '' ? $xl : (is_array($rec) && isset($rec['label']) && $rec['label'] !== '' ? $rec['label'] : $url)),
+        'url'=>$url, 'ja'=>$ja, 'foreign'=>$fo, 'total'=>$to, 'registered'=>($xl !== ''),
     ];
 }
 

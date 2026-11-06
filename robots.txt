@@ -2,9 +2,9 @@ User-agent: *
 Allow: /
 
 # 本番以外のHTML（サーバに置いている場合のみ効く）
-Disallow: /hp-amami-pr-1/amami_checked.html
-Disallow: /hp-amami-pr-1/amami-upd.html
-Disallow: /hp-amami-pr-1/amami0419.html
-Disallow: /hp-amami-pr-1/amamibk
+Disallow: /amami-kanko/amami_checked.html
+Disallow: /amami-kanko/amami-upd.html
+Disallow: /amami-kanko/amami0419.html
+Disallow: /amami-kanko/amamibk
 
-Sitemap: https://www.tokyoamamikai.com/hp-amami-pr-1/sitemap.xml
+Sitemap: https://www.tokyoamamikai.com/amami-kanko/sitemap.xml

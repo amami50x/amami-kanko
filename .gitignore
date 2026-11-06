@@ -19,3 +19,17 @@ desktop.ini
 
 # ローカル設定（サンプルはコミット可）
 island-links-admin-config.php
+
+# 件数データはローカルがダミー。本番ファイルを SCP で上書きしない。
+access-count.json
+no-up-access-count.json
+cell-clicks.json
+no-up-cell-clicks.json
+visit_count.csv
+no-up-visit_count.csv
+counter.ini
+no-up-counter.ini
+access_log.json
+no-up-access_log.json
+akusesu-cnt/counter.ini
+akusesu-cnt/no-up-counter.ini

@@ -1,13 +1,17 @@
-# hp-amami-pr-1（公式ドメイン: /hp-amami-pr-1/.htaccess）
+# amami-kanko（公式ドメイン: /amami-kanko/.htaccess）
 # 既存の mp3 設定はそのまま維持
 AddType audio/mpeg .mp3
 
-# 公開URL amami.html → 機能アップ版 index.html へ恒久的リダイレクト（301）
+# フォルダを開いたときは案内と一覧が一つになった index.html。
+DirectoryIndex index.html
+
+# 旧URLは index.html へ。guide.html のアドレスも残し、同じページへ転送する。
 # ?return= などクエリ文字列は維持（QSA）
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /hp-amami-pr-1/
-RewriteRule ^amami\.html$ https://www.tokyoamamikai.com/hp-amami-pr-1/index.html [R=301,L,QSA]
+RewriteBase /amami-kanko/
+RewriteRule ^amami\.html$ https://www.tokyoamamikai.com/amami-kanko/index.html [R=301,L,QSA]
+RewriteRule ^guide\.html$ https://www.tokyoamamikai.com/amami-kanko/index.html [R=301,L,QSA]
 </IfModule>
 
 # クリック集計の生データ（cell-clicks.json）を外部から直接見られないようにする。

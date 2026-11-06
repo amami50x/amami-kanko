@@ -4,9 +4,21 @@
 
   <url>
 
-    <loc>https://www.tokyoamamikai.com/hp-amami-pr-1/index.html</loc>
+    <loc>https://www.tokyoamamikai.com/amami-kanko/guide.html</loc>
 
-    <lastmod>2026-06-09</lastmod>
+    <lastmod>2026-10-14</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://www.tokyoamamikai.com/amami-kanko/index.html</loc>
+
+    <lastmod>2026-09-19</lastmod>
 
     <changefreq>weekly</changefreq>
 
@@ -16,9 +28,9 @@
 
   <url>
 
-    <loc>https://www.tokyoamamikai.com/hp-amami-pr-1/kanto-info/index.html</loc>
+    <loc>https://www.tokyoamamikai.com/amami-kanko/kanto-info/index.html</loc>
 
-    <lastmod>2026-06-09</lastmod>
+    <lastmod>2026-09-19</lastmod>
 
     <changefreq>monthly</changefreq>
 
