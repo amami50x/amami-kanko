@@ -342,20 +342,36 @@
       currentTimeDisplay.textContent = "0:00";
     });
 
+    // 曲を切り替える直前に、保存されている選曲から再生リストを作り直す（選曲中は選んだ曲だけを回し、最後の次は最初へ）
+    function syncPlaylistWithPicks() {
+      var picks = loadPicks();
+      if (!picks.length) return;
+      var chosen = pickCandidates().filter(function (t) { return picks.indexOf(t.file) >= 0; });
+      if (!chosen.length) return;
+      playlist = chosen;
+      var file = nowTrack ? nowTrack.file : null;
+      var idx = -1;
+      for (var i = 0; i < chosen.length; i++) if (chosen[i].file === file) { idx = i; break; }
+      currentTrack = idx >= 0 ? idx : currentTrack % chosen.length;
+    }
+
     nextTrackButton.addEventListener("click", () => {
       unlockAudio();
+      syncPlaylistWithPicks();
       currentTrack = (currentTrack + 1) % playlist.length;
       playTrack(currentTrack);
     });
 
     prevTrackButton.addEventListener("click", () => {
       unlockAudio();
+      syncPlaylistWithPicks();
       currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
       playTrack(currentTrack);
     });
 
     audioPlayer.addEventListener("ended", () => {
       pausedTime = 0;
+      syncPlaylistWithPicks();
       currentTrack = (currentTrack + 1) % playlist.length;
       playTrack(currentTrack);
     });
