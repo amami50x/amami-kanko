@@ -2,16 +2,16 @@
 # 既存の mp3 設定はそのまま維持
 AddType audio/mpeg .mp3
 
-# フォルダを開いたときは案内と一覧が一つになった index.html。
+# フォルダ（/amami-kanko/）を開いたときは本体の index.html を直接表示する（検索エンジン対策 20261110a）。
 DirectoryIndex index.html
 
-# 旧URLは index.html へ。guide.html のアドレスも残し、同じページへ転送する。
-# ?return= などクエリ文字列は維持（QSA）
+# 旧URL amami.html は guide.html（案内の中継ページ）へ 301 転送する（本番と同じ動き）。
+# guide.html は転送しない（中継ページのまま残す。スクロール演出の判定に使うため）。
+# ?return= などクエリ文字列は維持（QSA）。 20261110a
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /amami-kanko/
-RewriteRule ^amami\.html$ https://www.tokyoamamikai.com/amami-kanko/index.html [R=301,L,QSA]
-RewriteRule ^guide\.html$ https://www.tokyoamamikai.com/amami-kanko/index.html [R=301,L,QSA]
+RewriteRule ^amami\.html$ https://www.tokyoamamikai.com/amami-kanko/guide.html [R=301,L,QSA]
 </IfModule>
 
 # クリック集計の生データ（cell-clicks.json）を外部から直接見られないようにする。

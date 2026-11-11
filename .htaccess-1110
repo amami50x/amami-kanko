@@ -1,0 +1,28 @@
+# amami-kanko（公式ドメイン: /amami-kanko/.htaccess）
+# 既存の mp3 設定はそのまま維持
+AddType audio/mpeg .mp3
+
+# フォルダを開いたときは入口（guide.html）。一覧 index.html はボタンから開く。
+DirectoryIndex guide.html index.html
+
+# 公開URL amami.html → 入口 guide.html へ恒久的リダイレクト（301）
+# ?return= などクエリ文字列は維持（QSA）
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /amami-kanko/
+RewriteRule ^amami\.html$ https://www.tokyoamamikai.com/amami-kanko/guide.html [R=301,L,QSA]
+</IfModule>
+
+# クリック集計の生データ（cell-clicks.json）を外部から直接見られないようにする。
+# ブラウザで .../cell-clicks.json を開いてもアクセス拒否になる。
+# PHP（cell-click-counter.php）経由の読み書きはサーバ内部処理なので影響しない。
+# Apache 2.4（mod_authz_core）／2.2（mod_access_compat）どちらでも動くよう両対応。
+<Files "cell-clicks.json">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</Files>
