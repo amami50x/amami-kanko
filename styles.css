@@ -501,17 +501,29 @@ td {
 }
 
 .amami-table-hint {
-  max-width: 52em;
-  margin: 0 auto 12px;
-  padding: 10px 14px;
-  font-size: 0.95em;
-  line-height: 1.55;
+  max-width: none;
+  width: 100%;
+  margin: 4px 0 6px;
+  padding: 5px 12px;
+  font-size: 0.88em;
+  line-height: 1.4;
   text-align: center;
   color: #123760;
   background: #fff9e6;
   border: 1px solid #e6c84a;
   border-radius: 8px;
   box-sizing: border-box;
+}
+@media screen and (min-width: 900px) {
+  .amami-table-hint {
+    white-space: nowrap;
+  }
+}
+@media screen and (max-width: 899px) {
+  .amami-table-hint {
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
 }
 
 /* 与論町行・東京奄美会行の下：区切り線を太く */
@@ -541,6 +553,33 @@ td {
 
 #amami-table td.amami-org-name a.amami-org-name-link:hover {
   color: #ffe8f5 !important;
+}
+
+/* フッターの組織名セル：見た目は変えず、セル全体をクリック可能にする */
+#amami-table td.amami-org-name,
+#amami-table td#cell-13-03.kouiki-cell {
+  cursor: pointer;
+}
+#amami-table td.amami-org-name a.amami-org-name-link,
+#amami-table td#cell-13-03.kouiki-cell > a {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 4px 6px;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 1;
+}
+#amami-table td#cell-13-03.kouiki-cell > a {
+  color: #ffffff !important;
+  font-weight: 700;
+}
+#amami-table td#cell-13-03.kouiki-cell > a:hover {
+  color: #ffe8d0 !important;
 }
 
 /* 東京奄美会行：セル間の縦線を消し、表の左右外枠だけ残す */
@@ -1015,6 +1054,125 @@ table tr:nth-child(n+2):nth-child(-n+19) td:nth-child(n+2):nth-child(-n+10) {
   background-color: #ffcccb;
   /* 薄紅色 */
 }
+
+
+/* カテゴリ列ごとに背景色を分ける（見出し・本文）。#amami-table のみ。
+   市町村名列・島見出し・フッタ・閲覧済み・リンク切れ赤枠は既存ルールを優先する。 */
+#amami-table thead th:nth-child(n+2) {
+  color: #123760;
+}
+
+/* タイトル行（thead）を本文と見分けやすくする。列のパステル背景はそのまま。 */
+#amami-table thead th {
+  border: 3px solid #1f3a5f;
+  border-bottom-width: 4px;
+  font-weight: 700;
+}
+#amami-table th:nth-child(2),  #amami-table td:nth-child(2)  { background-color: #d4e8ff; } /* 観光 */
+#amami-table th:nth-child(3),  #amami-table td:nth-child(3)  { background-color: #ffe0c2; } /* グルメ */
+#amami-table th:nth-child(4),  #amami-table td:nth-child(4)  { background-color: #d8f3d0; } /* 特産品 */
+#amami-table th:nth-child(5),  #amami-table td:nth-child(5)  { background-color: #e6d6ff; } /* 郷土芸能 */
+#amami-table th:nth-child(6),  #amami-table td:nth-child(6)  { background-color: #f3e3bf; } /* 歴史文化 */
+#amami-table th:nth-child(7),  #amami-table td:nth-child(7)  { background-color: #c8f0e8; } /* 体験 */
+#amami-table th:nth-child(8),  #amami-table td:nth-child(8)  { background-color: #e0e4f8; } /* アクセス */
+#amami-table th:nth-child(9),  #amami-table td:nth-child(9)  { background-color: #fff0b8; } /* 天気 */
+#amami-table th:nth-child(10), #amami-table td:nth-child(10) { background-color: #f5d0dc; } /* 市町村旗イメージ歌 */
+#amami-table th:nth-child(11), #amami-table td:nth-child(11) { background-color: #cfe8d8; } /* 基本情報 */
+#amami-table th:nth-child(12), #amami-table td:nth-child(12) { background-color: #fde6c8; } /* イベントカレンダー */
+#amami-table th:nth-child(13), #amami-table td:nth-child(13) { background-color: #ead9f5; } /* 移住・定住 */
+#amami-table th:nth-child(14), #amami-table td:nth-child(14) { background-color: #cceaf0; } /* ふるさと納税 */
+
+/* 市町村の本文行：見出し行と同じく、パステル地に暗い文字だけ（青いカプセル背景を外す）。
+   市町村名列・島見出し帯・一番下の帯行は対象外（見た目はそのまま）。 */
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) {
+  text-align: center;
+  vertical-align: middle;
+}
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) a,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) .table-link-btn,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) .amami-popup-trigger,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) .amami-popup-trigger .amami-popup-label {
+  display: inline !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #123760 !important;
+  font-size: inherit !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  text-decoration: none !important;
+  text-shadow: none !important;
+  transform: none !important;
+  filter: none !important;
+  cursor: pointer;
+  white-space: normal;
+  word-break: keep-all;
+}
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) a:hover,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) .table-link-btn:hover,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) .amami-popup-trigger:hover,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) .amami-popup-trigger:hover .amami-popup-label,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) a:focus-visible,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) .amami-popup-trigger:focus-visible {
+  color: #0a1f38 !important;
+  text-decoration: underline !important;
+  background: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  filter: none !important;
+}
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) a.used,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td:not(.municipal-name) .table-link-btn.used {
+  background: none !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #123760 !important;
+}
+
+/* クリック済みセル（amami-cell-seen）：濃いオレンジ背景＋白太字。列のパステルより優先。枠・✓は使わない。 */
+#amami-table tbody td.amami-cell-seen {
+  background-color: #e86a00 !important;
+  color: #ffffff !important;
+  font-weight: 700;
+}
+#amami-table tbody td.amami-cell-seen a,
+#amami-table tbody td.amami-cell-seen .table-link-btn,
+#amami-table tbody td.amami-cell-seen .amami-popup-trigger,
+#amami-table tbody td.amami-cell-seen .amami-popup-label,
+#amami-table tbody td.amami-cell-seen button:not(.municipal-flag-btn) {
+  color: #ffffff !important;
+  font-weight: 700;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none;
+}
+
+
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td.amami-cell-seen:not(.municipal-name) a,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td.amami-cell-seen:not(.municipal-name) .table-link-btn,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td.amami-cell-seen:not(.municipal-name) .amami-popup-trigger,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td.amami-cell-seen:not(.municipal-name) .amami-popup-label,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td.amami-cell-seen:not(.municipal-name) a:hover,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td.amami-cell-seen:not(.municipal-name) .table-link-btn:hover,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td.amami-cell-seen:not(.municipal-name) .amami-popup-trigger:hover,
+#amami-table tbody tr:not(.island-title-row):not(.amami-table-footer-row) td.amami-cell-seen:not(.municipal-name) .amami-popup-trigger:hover .amami-popup-label {
+  color: #ffffff !important;
+  font-weight: 700;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none;
+}
+
 
 .highlight-box {
   background-color: #ffcc00;
